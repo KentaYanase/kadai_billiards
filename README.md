@@ -3,4 +3,4 @@
 C++とOpenGLを使ったビリヤードゲーム
 
 実行ファイルは以下にあります。  
-kadai_billiards/build/Debug/kadai_billiards 
+build/Debug/kadai_billiards 
