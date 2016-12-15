@@ -19,6 +19,7 @@ private:
     static TimeManager* instance;
     
     static const int fixedUpdateSpan;
+    static float time;
     
     static void fixedUpdate (int value);
 
@@ -28,11 +29,12 @@ public:
     TimeManager(TimeManager&&) = delete;
     TimeManager& operator=(TimeManager&&) = delete;
     
+    static float timeScale;
+    
+    static float getTime ();
     static TimeManager& getInstance ();
     static void create();
     static void destroy();
-    
-    
     
 };
 

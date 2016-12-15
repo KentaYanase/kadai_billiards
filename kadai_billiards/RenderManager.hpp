@@ -35,6 +35,9 @@ public:
     RenderManager(RenderManager&&) = delete;
     RenderManager& operator=(RenderManager&&) = delete;
    
+    static bool isGameClear;
+    static bool isGameOver;
+    
     static RenderManager& getInstance ();
     static void create();
     static void destroy();

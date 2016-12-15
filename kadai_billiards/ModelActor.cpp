@@ -8,20 +8,30 @@
 
 #include "ModelActor.hpp"
 
+ModelActor::ModelActor(std::string name) : Actor(name){
+}
+
 ModelActor::ModelActor(std::string name, std::string modelName) : Actor(name){
-    mqoModel = ResourcesManager::getMqoModel(modelName);
+    ResourcesManager::getMqoModel(modelName, this->mqoModel);
+}
+
+ModelActor::ModelActor(std::string name, glm::vec3 position, glm::vec3 euler) : Actor(name, position, euler){
+}
+
+ModelActor::ModelActor(std::string name, glm::vec3 position, glm::vec3 euler, std::string modelName) : Actor(name, position, euler){
+    ResourcesManager::getMqoModel(modelName, this->mqoModel);
 }
 
 ModelActor::~ModelActor () {
-    
+    if(mqoModel != nullptr) mqoDeleteModel( mqoModel);
 }
 
 void ModelActor::fixedUpdate(float deltaTime) {
-//    std::cout << name << "  fixedUpdate" << std::endl;
+    Actor::fixedUpdate(deltaTime);
 }
 
 void ModelActor::displayUpdate(float deltaTime) {
-//    std::cout << name << "  displayUpdate" << std::endl;
+    Actor::displayUpdate(deltaTime);
     
     glPushMatrix();
     
@@ -29,7 +39,8 @@ void ModelActor::displayUpdate(float deltaTime) {
     glRotatef(euler.z, 0.0, 0.0, 1.0);
     glRotatef(euler.y, 0.0, 1.0, 0.0);
     glRotatef(euler.x, 1.0, 0.0, 0.0);
-    mqoCallModel(*mqoModel);
+
+    mqoCallModel(mqoModel);
     
     glPopMatrix();
 }

@@ -12,8 +12,12 @@
 #include <glm/glm.hpp>
 #include "TimeManager.hpp"
 #include "ActorManager.hpp"
+#include "PhysicsManager.hpp"
 
 TimeManager* TimeManager::instance = nullptr;
+
+float TimeManager::time = 0.0f;
+float TimeManager::timeScale = 1.0f;
 
 const int TimeManager::fixedUpdateSpan = 20;    //ms間隔
 
@@ -35,9 +39,29 @@ void TimeManager::destroy() {
     }
 }
 
+float TimeManager::getTime() {
+    return time;
+}
+
 void TimeManager::fixedUpdate(int value) {
+    float deltaTime = (float)fixedUpdateSpan/(float)1000;
+    time += deltaTime;
+
     for(auto actor : ActorManager::getActorList()) {
-        actor->fixedUpdate(1.0f/60.0f);
+        if(actor->rigidBody != nullptr) {
+            if(!actor->rigidBody->isStaticObject() && !actor->rigidBody->isKinematicObject()) {
+                
+            }else {
+                actor->applyTransform();
+            }
+        }
     }
+    
+    PhysicsManager::stepSimulation(deltaTime * timeScale);
+    
+    for(auto actor : ActorManager::getActorList()) {
+        actor->fixedUpdate(deltaTime * timeScale);
+    }
+    
     glutTimerFunc(fixedUpdateSpan , TimeManager::fixedUpdate , 0);
 }

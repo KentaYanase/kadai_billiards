@@ -18,18 +18,21 @@
 #include <glm/glm.hpp>
 #include "GLMetaseq.h"
 #include "ResourcesManager.hpp"
+#include <BulletDynamics/btBulletDynamicsCommon.h>
 
 class ModelActor : public Actor {
 private:
     
 protected:
-    //TODO
-    //やっぱりMQOではなくobjファイルローダーを作る.
-    MQO_MODEL *mqoModel;
     
 public:
+    ModelActor (std::string name);
     ModelActor (std::string name, std::string modelName);
+    ModelActor (std::string name, glm::vec3 position, glm::vec3 euler);
+    ModelActor (std::string name, glm::vec3 position, glm::vec3 euler, std::string modelName);
     virtual ~ModelActor ();
+    
+    MQO_MODEL mqoModel = nullptr;
     
     virtual void fixedUpdate(float deltaTime);
     virtual void displayUpdate(float deltaTime);

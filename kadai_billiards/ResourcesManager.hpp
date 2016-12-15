@@ -41,7 +41,7 @@ public:
     static void load ();
     static void unload ();
     
-    static MQO_MODEL* getMqoModel (std::string key);
+    static void getMqoModel (std::string key, MQO_MODEL& model);
     //static const * getTexture (std::string key);
 };
 

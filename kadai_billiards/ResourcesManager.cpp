@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include <libgen.h>
+#include "GLMetaseqUtil.hpp"
 
 char *ResourcesManager::exePath = nullptr;
 
@@ -39,34 +40,27 @@ void ResourcesManager::destroy() {
     }
 }
 
+MQO_MODEL mqoCreateModel (std::string dir, std::string path, float size) {
+    return mqoCreateModel(const_cast<char *>((dir + path).c_str()), size);
+}
+
 void ResourcesManager::load(){
     std::ostringstream os;
     char *dir;
     dir = dirname(exePath);
-    //MQOモデル
-    std::string ballPath = dir; ballPath += "/Ball.mqo";
-    std::string cuePath = dir; cuePath += "/Cue.mqo";
-    std::string billiardsTablePath = dir; billiardsTablePath += "/BilliardsTable.mqo";
     
-    instance->mqoModelMap["Ball"] = mqoCreateModel(const_cast<char *>(ballPath.c_str()), 0.0001);   //ボール
-    instance->mqoModelMap["Cue"] = mqoCreateModel(const_cast<char *>(cuePath.c_str()), 0.00001);   //キュー
-    instance->mqoModelMap["BilliardsTable"] = mqoCreateModel(const_cast<char *>(billiardsTablePath.c_str()), 0.0001);   //ビリヤード台
-    
-//    instance->mqoModelMap["Ball"] = mqoCreateModel("Ball.mqo", 0.0001);   //ボール
-//    instance->mqoModelMap["Cue"] = mqoCreateModel( "Cue.mqo", 0.00001);   //キュー
-//    instance->mqoModelMap["BilliardsTable"] = mqoCreateModel( "BilliardsTable.mqo", 0.0001);   //ビリヤード台
-    
-    //テクスチャ
-        //1番ボール
-        //2番
-        //3番
-        //4番
-        //5番
-        //6番
-        //7番
-        //8番
-        //9番
-    
+    instance->mqoModelMap["Cue"] = mqoCreateModel(dir, "/Model/Cue.mqo", 0.00001);   //キュー
+    instance->mqoModelMap["BilliardsTable"] = mqoCreateModel(dir, "/Model/BilliardsTable.mqo", 0.001);   //ビリヤード台
+    instance->mqoModelMap["Ball"] = mqoCreateModel(dir, "/Model/Ball.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball1"] = mqoCreateModel(dir, "/Model/Ball1.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball2"] = mqoCreateModel(dir, "/Model/Ball2.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball3"] = mqoCreateModel(dir, "/Model/Ball3.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball4"] = mqoCreateModel(dir, "/Model/Ball4.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball5"] = mqoCreateModel(dir, "/Model/Ball5.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball6"] = mqoCreateModel(dir, "/Model/Ball6.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball7"] = mqoCreateModel(dir, "/Model/Ball7.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball8"] = mqoCreateModel(dir, "/Model/Ball8.mqo", 0.0008);   //ボール
+    instance->mqoModelMap["Ball9"] = mqoCreateModel(dir, "/Model/Ball9.mqo", 0.0008);   //ボール
 }
 
 void ResourcesManager::unload() {
@@ -81,6 +75,6 @@ void ResourcesManager::unload() {
     
 }
 
-MQO_MODEL* ResourcesManager::getMqoModel(std::string key) {
-    return &getInstance().mqoModelMap[key];
+void ResourcesManager::getMqoModel(std::string key, MQO_MODEL& model) {
+    model = getInstance().mqoModelMap[key];
 }
